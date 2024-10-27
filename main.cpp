@@ -2,30 +2,40 @@
 #include <cassert>
 #include <cmath>
 
-const char kWindowTitle[] = "MT4_01_01_Basic";
+const char kWindowTitle[] = "LE2C_18_ナガイコハク_MT4_01_01_任意回転行列";
 
+//3次元ベクトル
 struct Vector3 {
 	float x, y, z;
 };
 
+//4x4行列
 struct Matrix4x4 {
 	float m[4][4];
 };
 
-float Dot(const Vector3& v1, const Vector3& v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
-float Length(const Vector3& v) { return std::sqrt(Dot(v, v)); }
+//内積
+float Dot(const Vector3& v1, const Vector3& v2) {
 
+	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; 
+}
 
+//ベクトルの長さ
+float Length(const Vector3& v) {
+
+	return std::sqrt(Dot(v, v));
+}
+
+//正規化
 Vector3 Normalize(const Vector3& v) {
 	float length = Length(v);
 	assert(length != 0.0f);
 	return { v.x / length, v.y / length, v.z / length };
 }
 
+//任意回転行列を作成
 Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle) {
 
-
-	//資料p20を参考に中身を埋める。nはaxisのこと
 	float cos = std::cos(angle);
 	float sin = std::sin(angle);
 
@@ -56,6 +66,8 @@ Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle) {
 
 static const int kRowHeight = 20;
 static const int kColumnWidth = 60;
+
+//4x4行列の全要素を表示
 void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label) {
 	Novice::ScreenPrintf(x, y, "%s", label);
 	for (int row = 0; row < 4; ++row) {
